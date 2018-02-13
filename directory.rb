@@ -18,13 +18,13 @@ end
 def process(selection)
   case selection
   when '1' # input a student
-    input_students
+    puts input_students
   when '2' # show the input_students
-    show_students
+    puts show_students
   when '3'
-    save_students
+    puts save_students
   when '4'
-    load_students
+    puts load_students
   when '9' # exit program
     exit
   else
@@ -48,12 +48,14 @@ def input_students
     # ask for next student
     name = STDIN.gets.chomp
   end
+  'Successful adding students'
 end
 
 def show_students
   print_header
   print_students_list
   print_footer
+  'Successful displaying students'
 end
 
 def print_header
@@ -80,6 +82,7 @@ def save_students
     file.puts student_data.join(',')
   end
   file.close
+  'Successful saving students'
 end
 
 def load_students(filename = 'students.csv')
@@ -90,6 +93,7 @@ def load_students(filename = 'students.csv')
     @students << { name: name, cohort: cohort.to_sym }
   end
   file.close
+  'Successul loading students'
 end
 
 def try_load_students
