@@ -1,11 +1,21 @@
 @students = [] # empty array that is accessible to all methods
 
+@options = {
+  '1' =>  -> { input_students },
+  '2' => -> { show_students },
+  '3' =>  -> { save_students },
+  '4' =>  -> { load_students },
+  '9' => -> { exit }
+}
+
 def print_menu
-  puts "1. Input a student"
-  puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
-  puts "9. Exit"
+  [
+    '1. Input a student',
+    '2. Show the students',
+    '3. Save the list to students.csv',
+    '4. Load the list from students.csv',
+    '9. Exit'
+  ].each { |menu_item| puts menu_item }
 end
 
 def interactive_menu
@@ -16,31 +26,22 @@ def interactive_menu
 end
 
 def process(selection)
-  case selection
-    when "1" # input a student
-      input_students
-    when "2" # show the input_students
-      show_students
-    when "3"
-      save_students
-    when "4"
-      load_students
-    when "9" # exit program
-      exit
-    else
-      puts "I don't know what you meant, please try again"
+  if @options[selection].nil?
+    puts "I don't know what you meant, try again"
+  else
+    @options[selection].call
   end
 end
 
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
+  puts 'Please enter the names of the students'
+  puts 'To finish, just hit return twice'
 
   # get first name
   name = STDIN.gets.chomp
 
   # while name is not empty, repeat this block
-  while !name.empty? do
+  until name.empty?
     # add student hash to array using the shovel operator
     @students << { name: name, cohort: :november }
     puts "Now we have #{@students.count} students"
@@ -57,8 +58,8 @@ def show_students
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts 'The students of Villains Academy'
+  puts '-------------'
 end
 
 def print_students_list
@@ -72,21 +73,19 @@ def print_footer
 end
 
 def save_students
-  # open the file for writing
-  file = File.open("students.csv", "w")
+  file = File.open('students.csv', 'w') # open the file for writing
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
-    file.puts student_data.join(",")
+    file.puts student_data.join(',')
   end
   file.close
 end
 
-def load_students(filename = "students.csv")
-  # open the file for reading
-  file = File.open(filename, "r")
+def load_students(filename = 'students.csv')
+  file = File.open(filename, 'r') # open the file for reading
   file.readlines.each do |line|
-    name, cohort = line.chomp.split(",")
+    name, cohort = line.chomp.split(',')
     @students << { name: name, cohort: cohort.to_sym }
   end
   file.close
