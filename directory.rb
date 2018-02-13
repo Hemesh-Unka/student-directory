@@ -42,7 +42,7 @@ def input_students
   # while name is not empty, repeat this block
   while !name.empty? do
     # add student hash to array using the shovel operator
-    @students << { name: name, cohort: :november }
+    add_student(name)
     puts "Now we have #{@students.count} students"
 
     # ask for next student
@@ -71,11 +71,13 @@ def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
 
+def add_student(name, cohort = :november)
+  @students << { name: name, cohort: cohort.to_sym }
+end
+
 def save_students
-  # open the file for writing
-  file = File.open("students.csv", "w")
-  # iterate over the array of students
-  @students.each do |student|
+  file = File.open("students.csv", "w") # open the file for writing
+  @students.each do |student| # iterate over the array of students
     student_data = [student[:name], student[:cohort]]
     file.puts student_data.join(",")
   end
@@ -83,11 +85,10 @@ def save_students
 end
 
 def load_students(filename = "students.csv")
-  # open the file for reading
-  file = File.open(filename, "r")
+  file = File.open(filename, "r") # open the file for reading
   file.readlines.each do |line|
     name, cohort = line.chomp.split(",")
-    @students << { name: name, cohort: cohort.to_sym }
+    add_student(name, cohort)
   end
   file.close
 end
