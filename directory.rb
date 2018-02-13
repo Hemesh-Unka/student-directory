@@ -36,8 +36,30 @@ def input_students
   students
 end
 
-# call methods
-students = input_students
-print_header
-print(students)
-print_footer(students)
+def interactive_menu
+  students = []
+
+  loop do
+    # print the menu and ask the user what to do
+    puts "1. Input a student"
+    puts "2. Show the students"
+    puts "9. Exit"
+
+    selection = gets.chomp
+
+    case selection
+      when "1" # input a student
+        students = input_students
+      when "2" # show the input_students
+        print_header
+        print(students)
+        print_footer(students)
+      when "9" # exit program
+        exit
+      else
+        puts "I don't know what you meant, please try again"
+    end
+  end
+end
+
+interactive_menu
