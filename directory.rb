@@ -36,7 +36,7 @@ def interactive_menu(students)
       loop do
         puts "Enter starting letter of student do you want to display?"
         @selection = gets.chomp
-        break if @selection.length == 1 && @selection =~ /[A-Za-z]/
+        break if @selection.length == 1 && @selection =~ /[[:alpha:]]/
         puts "Please try again"
       end
 
