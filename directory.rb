@@ -21,13 +21,18 @@ def filter_by_letter(students, letter)
   students.select { |student| student[:name].chr.downcase == letter.downcase }
 end
 
+def filter_by_number_of_characters(students, number)
+  students.select { |student| student[:name].length <= number.to_i }
+end
+
 def interactive_menu(students)
   # loop through menu & break when valid selection is chosen
   loop do
       puts "Please select and option below"
       puts "1. Select students starting with a specific letter"
+      puts "2. Select students who have less than specified number of characters"
       @selection = gets.chomp
-      break if @selection == "1"
+      break if @selection == "1" || @selection == "2"
       puts "Please select a valid option from the menu"
   end
 
@@ -36,11 +41,20 @@ def interactive_menu(students)
       loop do
         puts "Enter starting letter of student do you want to display?"
         @selection = gets.chomp
-        break if @selection.length == 1 && @selection =~ /[A-Za-z]/
+        break if @selection.length == 1 && @selection =~ /[[:alpha:]]/
         puts "Please try again"
       end
-
       print(filter_by_letter(students, @selection))
+
+    when "2" # number of characters selection
+      loop do
+        puts "Enter number of characters you want to display?"
+        @selection = gets.chomp
+        break if @selection.length > 0 && @selection.to_i >= 1 && @selection =~ /[[:digit:]]/
+        puts "Please try again"
+      end
+      print(filter_by_number_of_characters(students, @selection))
+
   end
 end
 
@@ -50,6 +64,7 @@ def input_students
 
   # empty array to hold students
   students = []
+
   # get first name
   name = gets.chomp
 
