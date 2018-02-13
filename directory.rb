@@ -9,6 +9,12 @@ def print(students)
   end
 end
 
+def print_with_index(students)
+  students.each_with_index do |student, index|
+    puts "#{index}. #{student[:name]} (#{student[:cohort]})"
+  end
+end
+
 def print_footer(names)
   puts "Overall, we have #{names.count} great students"
 end
@@ -39,5 +45,5 @@ end
 # call methods
 students = input_students
 print_header
-print(students)
+print_with_index(students)
 print_footer(students)
