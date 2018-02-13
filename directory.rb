@@ -5,8 +5,11 @@ end
 
 def print(students)
   if students.count > 0
-    students.each do |student|
-      puts "#{student[:name]} (#{student[:cohort]})"
+    count = 0
+    while true
+      puts "#{students[count][:name]} (#{students[count][:cohort]})"
+      break if students.count - 1 == count
+      count += 1
     end
   else
     puts "No students found"
