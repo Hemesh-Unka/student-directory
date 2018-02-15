@@ -19,7 +19,7 @@ def process(selection)
   case selection
   when '1' # input a student
     input_students
-  when '2' # show the input_students
+  when '2' # show the students
     show_students
   when '3'
     save_students
@@ -36,17 +36,13 @@ def input_students
   puts 'Please enter the names of the students'
   puts 'To finish, just hit return twice'
 
-  # get first name
-  name = STDIN.gets.chomp
+  name = STDIN.gets.chomp   # get first name
 
-  # while name is not empty, repeat this block
-  until name.empty?
-    # add student hash to array using the shovel operator
+  until name.empty? # while name is not empty, repeat this block
     @students << { name: name, cohort: :november }
     puts "Now we have #{@students.count} students"
 
-    # ask for next student
-    name = STDIN.gets.chomp
+    name = STDIN.gets.chomp # ask for next student
   end
 end
 
@@ -72,10 +68,8 @@ def print_footer
 end
 
 def save_students
-  # open the file for writing
-  file = File.open('students.csv', 'w')
-  # iterate over the array of students
-  @students.each do |student|
+  file = File.open('students.csv', 'w') # open the file for writing
+  @students.each do |student| # iterate over the array of students
     student_data = [student[:name], student[:cohort]]
     file.puts student_data.join(',')
   end
@@ -83,8 +77,7 @@ def save_students
 end
 
 def load_students(filename = 'students.csv')
-  # open the file for reading
-  file = File.open(filename, 'r')
+  file = File.open(filename, 'r') # open the file for reading
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
     @students << { name: name, cohort: cohort.to_sym }
