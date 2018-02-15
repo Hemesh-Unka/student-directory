@@ -5,6 +5,7 @@ def print_menu
   puts '2. Show the students'
   puts '3. Save the list to students.csv'
   puts '4. Load the list from students.csv'
+  puts '8. Display source code from this app'
   puts '9. Exit'
 end
 
@@ -25,6 +26,8 @@ def process(selection)
     save_students
   when '4'
     load_students
+  when '8'
+    display_source_code
   when '9' # exit program
     exit
   else
@@ -102,6 +105,18 @@ def try_load_students
     puts "Sorry #{filename} doesn't exist."
     exit
   end
+end
+
+def display_source_code
+  puts 'Warning, file maybe large. Continue? (y/n)'
+  input = STDIN.gets.chomp.downcase
+  return if input != 'y' # get out of this method if any other key is pressed
+  puts "Displaying source code of file: #{__FILE__}"
+  puts '-' * 40
+  File.open(__FILE__, 'r') do |file|
+    puts file.read
+  end
+  puts '-' * 40
 end
 
 try_load_students
