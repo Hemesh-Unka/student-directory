@@ -71,31 +71,45 @@ def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
 
-def save_students
-  # open the file for writing
-  file = File.open('students.csv', 'w')
-  # iterate over the array of students
-  @students.each do |student|
+# simple select file method.
+def select_file(default_filename, loading_saving_boolean = true)
+  puts "Please enter name of the file you want to #{loading_saving_boolean ? 'load' : 'save to'}."
+  puts "or else press return to #{loading_saving_boolean ? 'load' : 'save too'} the default file (#{default_filename})"
+  filename_input = gets.chomp
+
+  if filename_input.empty?
+    puts "#{loading_saving_boolean ? 'Loading' : 'Saving to'} default file #{default_filename}"
+    default_filename
+  else
+    filename_input
+  end
+end
+
+def save_students(default_filename = 'students.csv')
+  filename = select_file(default_filename, false)
+  file = File.open(filename, 'w') # open the file for writing
+  @students.each do |student| # iterate over the array of students
     student_data = [student[:name], student[:cohort]]
     file.puts student_data.join(',')
   end
   file.close
 end
 
-def load_students(filename = 'students.csv')
-  # open the file for reading
-  file = File.open(filename, 'r')
+def load_students(default_filename = 'students.csv')
+  filename = select_file(default_filename)
+  file = File.open(filename, 'r') # open the file for reading
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
     @students << { name: name, cohort: cohort.to_sym }
   end
   file.close
+  puts "Loaded #{@students.count} from #{filename}"
 end
 
 def try_load_students
   filename = ARGV.first # first argument from the command line
   return if filename.nil? # get out of this method if filename isn't given
-  if File.exist?(filename) # true or false wether file exists
+  if File.exist?(filename) # true or false if file exists
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
   else
