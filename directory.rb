@@ -72,24 +72,22 @@ def print_footer
 end
 
 def save_students
-  # open the file for writing
-  file = File.open('students.csv', 'w')
-  # iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    file.puts student_data.join(',')
+  File.open('students.csv', 'w') do |file| # open the file for writing
+    @students.each do |student| # iterate over the array of students
+      student_data = [student[:name], student[:cohort]]
+      file.puts student_data.join(',')
+    end
   end
-  file.close
 end
 
 def load_students(filename = 'students.csv')
   # open the file for reading
-  file = File.open(filename, 'r')
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    @students << { name: name, cohort: cohort.to_sym }
+  File.open(filename, 'r') do |file|
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(',')
+      @students << { name: name, cohort: cohort.to_sym }
+    end
   end
-  file.close
 end
 
 def try_load_students
