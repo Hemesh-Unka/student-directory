@@ -5,68 +5,70 @@
 
 @students = [] # an empty array accessible to all methods
 
-def input_helper
-  student = {}
-  prefix = 'Please enter'
-  categories = {
-    name: "#{prefix} the name of the student",
-    cohort: "#{prefix} a cohort month (Default = :november)",
-  }
+def input_name
+  puts 'Please enter the name of the student'
+  gets.chomp
+end
 
-  categories.each do |category, question|
-    puts question
-    if category == 'cohort'.to_sym
+def input_month
+  puts 'Please enter a cohort month (default: november)'
+  cohort_month = gets.chomp.downcase.to_sym
+  cohort_month = :november if cohort_month.empty?
 
-      loop do
-        @input = gets.chomp.downcase.to_sym
-        @input = :november if @input.empty?
-        break if @months.include?(@input)
-        puts 'Please enter a valid month'
-      end
-    else
-      @input = gets.chomp
-    end
-    student[category] = @input
+  until @months.include?(cohort_month)
+    puts 'Please enter a valid month'
+    cohort_month = gets.chomp.downcase.to_sym
+    return cohort_month = :november if cohort_month.empty?
   end
-  student
+  cohort_month
 end
 
 def input_students
+  student = {}
   puts 'Please enter the names of the students'
   puts 'To finish, just hit return twice'
-  student = input_helper
+  student[:name], student[:cohort] = input_name, input_month
 
-  # while name is not empty, repeat this block
-  while !student[:name].empty? do
-    # add student hash to array using the shovel operator
-    @students << student
-
+  until student[:name].empty? # while name is not empty, repeat this block
+    @students << student # add student hash to array using the shovel operator
     puts "Now we have #{@students.count} students"
 
-    student = input_helper
-  end
+    student = {}
+    student[:name], student[:cohort] = input_name, input_month
 
-  # return students array
-  @students
+  end
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts 'The students of Villains Academy'
+  puts '-------------'
 end
 
-def print(students)
-  students.each do |student|
+def print
+  @students.each do |student|
     puts "Name & Cohort: #{student[:name]} (#{student[:cohort]})"
   end
 end
 
-def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+def print_by_cohort
+  by_cohort = Hash.new { |k, v| k[v] = [] }
+
+  @students.each do |student|
+    by_cohort[student[:cohort]] << student
+  end
+
+  by_cohort.each_with_index do |(k, v), i|
+    puts "#{i + 1}. #{k.upcase}"
+    v.each { |x| puts "#{x[:name]} (#{x[:cohort]})" }
+  end
+end
+
+def print_footer
+  puts "Overall, we have #{@students.count} great students"
 end
 
 # call methods
-students = input_students
+input_students
 print_header
-print(students)
-print_footer(students)
+print_by_cohort
+print_footer
