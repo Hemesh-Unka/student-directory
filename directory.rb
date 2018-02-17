@@ -7,17 +7,17 @@
 
 def input_name
   puts 'Please enter the name of the student'
-  gets.chomp
+  gets.strip
 end
 
 def input_month
   puts 'Please enter a cohort month (default: november)'
-  cohort_month = gets.chomp.downcase.to_sym
+  cohort_month = gets.strip.downcase.to_sym
   cohort_month = :november if cohort_month.empty?
 
   until @months.include?(cohort_month)
     puts 'Please enter a valid month'
-    cohort_month = gets.chomp.downcase.to_sym
+    cohort_month = gets.strip.downcase.to_sym
     return cohort_month = :november if cohort_month.empty?
   end
   cohort_month
