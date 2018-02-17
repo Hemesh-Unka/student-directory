@@ -54,8 +54,16 @@ def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
 
+def show_students
+  if @students.count > 0
+    print_header
+    print
+    print_footer
+  else
+    puts 'Not enough students to print'
+  end
+end
+
 # call methods
 input_students
-print_header
-print
-print_footer
+show_students
