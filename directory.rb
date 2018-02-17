@@ -36,7 +36,7 @@ def input_students
   puts 'Please enter the names of the students'
   puts 'To finish, just hit return twice'
 
-  name = STDIN.gets.chomp   # get first name
+  name = STDIN.gets.chomp # get first name
 
   until name.empty? # while name is not empty, repeat this block
     @students << { name: name, cohort: :november }
