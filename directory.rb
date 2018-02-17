@@ -31,11 +31,10 @@ def input_students
 
   until student[:name].empty? # while name is not empty, repeat this block
     @students << student # add student hash to array using the shovel operator
-    puts "Now we have #{@students.count} students"
+    puts "Now we have #{@students.count} #{@students.count <= 1 ? 'student' : 'students'}"
 
     student = {}
     student[:name], student[:cohort] = input_name, input_month
-
   end
 end
 
@@ -51,7 +50,7 @@ def print
 end
 
 def print_footer
-  puts "Overall, we have #{@students.count} great students"
+  puts "Overall, we have #{@students.count} great #{@students.count <= 1 ? 'student' : 'students'}"
 end
 
 # call methods
